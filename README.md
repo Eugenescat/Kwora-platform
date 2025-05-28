@@ -1,95 +1,115 @@
-# beyond
+# Kwora: A Quora-like Q&A Platform
 
-## 微信公众号
+Kwora is a modern, scalable Q&A platform inspired by Quora, built with Go and microservices architecture. It provides a robust platform for users to ask questions, share knowledge, and engage in meaningful discussions.
 
-![qrcode_for_gh_884b10e30cf6_344](https://github.com/zhoushuguang/beyond/assets/16539942/3a6801d9-ebf9-4a0f-a141-2f410b001f7e)
+## 🚀 Features
 
-## 架构图
+- **User Management**: Complete user authentication and profile management
+- **Q&A System**: Ask questions, provide answers, and engage in discussions
+- **Article System**: Create and share long-form content
+- **Social Features**: Follow users, like content, and interact with others
+- **Real-time Chat**: Direct messaging between users
+- **Search**: Advanced search capabilities powered by Elasticsearch
+- **Content Moderation**: Built-in content moderation system
 
-## 文档
+## 🛠 Tech Stack
 
+- **Backend Framework**: [go-zero](https://github.com/zeromicro/go-zero) - A cloud-native Go microservices framework
+- **Database**: 
+  - MySQL (via GORM)
+  - Redis for caching
+- **Search Engine**: Elasticsearch
+- **Message Queue**: Kafka
+- **Service Discovery**: Consul
+- **Storage**: Aliyun OSS
+- **Container Orchestration**: Kubernetes
+- **Authentication**: JWT
+- **Tracing**: OpenTelemetry
 
+## 📁 Project Structure
 
-### 第一课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/HsMIdfEa0ogEvmxCpRrcEOyenqc
-#### 视频
-https://www.bilibili.com/video/BV1op4y177iS/
+```
+.
+├── application/           # Main application services
+│   ├── article/          # Article service
+│   ├── chat/            # Chat service
+│   ├── follow/          # Follow service
+│   ├── like/            # Like service
+│   ├── member/          # Member service
+│   ├── message/         # Message service
+│   ├── qa/              # Q&A service
+│   └── user/            # User service
+├── pkg/                  # Shared packages
+├── db/                   # Database migrations and schemas
+├── .github/             # GitHub workflows and templates
+└── k8s/                 # Kubernetes deployment files
+```
 
-### 第二课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/XX6xdpB0UoH0auxgPYlcxmninDb
-#### 视频
-https://www.bilibili.com/video/BV1CH4y1Q7PM/
+## 🚀 Getting Started
 
-### 第三课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/XLB9dK9Cao3Z7HxPyEscu0P9nIb
-#### 视频
-https://www.bilibili.com/video/BV19u411w7WS/
+### Prerequisites
 
-### 第四课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/U9FGdVAFuoFFiUxySsgcl5TMnke
-#### 视频
-https://www.bilibili.com/video/BV1Y8411q7uW/
+- Go 1.21.0 or later
+- Docker and Docker Compose
+- Kubernetes cluster (for production deployment)
+- MySQL 8.0+
+- Redis
+- Elasticsearch 8.x
+- Kafka
+- Consul
 
-### 第五课
-#### 文档 
-https://pwmzlkcu3p.feishu.cn/docx/EBzWdSFR5oPVMJxP1oOcUGojnTd
-#### 视频
-https://www.bilibili.com/video/BV1k8411y7W5/
+### Development Setup
 
-### 第六课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/O1u3d9pqWo4sZTx6NTxcOHhknmd
-#### 视频
-https://www.bilibili.com/video/BV1F84y1S74g/
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/eugenescat/kwora-platform.git
+   cd kwora-platform
+   ```
 
-### 第七课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/SvSwdAETNo3F0Axznp8ceaX1nIb
-#### 视频
-https://www.bilibili.com/video/BV1sz4y1G73u/
+2. Install dependencies:
+   ```bash
+   go mod download
+   ```
 
-### 第八课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/At4zdJzrFowGMmx5OjJcrS5mnir
-#### 视频
-https://www.bilibili.com/video/BV1S8411C7CY/
+3. Set up the development environment:
+   ```bash
+   # Start required services using Docker Compose
+   docker-compose up -d
+   ```
 
-### 第九课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/OW6Sd0ZsioU9LLxuUSXcUZgNnoD
-#### 视频
-https://www.bilibili.com/video/BV1oB4y1f7Tr/
+4. Run the services:
+   ```bash
+   # Start individual services
+   go run application/user/api/user.go
+   go run application/article/api/article.go
+   # ... other services
+   ```
 
-### 第十课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/Si1Cd4EGxoZXkJxGenzcFttOnsh
-#### 视频
-https://www.bilibili.com/video/BV1je411R7iy/
+### Production Deployment
 
-### 第十一课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/NYyHdpSzhoB8Zkxdb6NcpUGynH4
-#### 视频
-https://www.bilibili.com/video/BV11u4y1Y7GC/
+1. Build Docker images:
+   ```bash
+   docker build -f user-rpc.dockerfile -t kwora/user-rpc .
+   docker build -f article-rpc.dockerfile -t kwora/article-rpc .
+   # ... build other services
+   ```
 
-### 第十二课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/QZcKdB4VXoUCRDxGilfcTaw7n8e
-#### 视频
-https://www.bilibili.com/video/BV1u64y177rL
+2. Deploy to Kubernetes:
+   ```bash
+   kubectl apply -f k8s/
+   ```
 
-### 第十三课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/BDNUdhmP4oec6ix1P1ZcqF3rnIc
-#### 视频
-https://www.bilibili.com/video/BV1bH4y1C7Uj
+## 📝 API Documentation
 
-### 第十四课
-#### 文档
-https://pwmzlkcu3p.feishu.cn/docx/Ydd4dG8OSobJ1rxJFgacOBKvnSg
+API documentation is available at `/api/docs` when running the services locally.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
 
