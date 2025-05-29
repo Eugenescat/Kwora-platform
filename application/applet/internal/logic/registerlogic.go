@@ -55,11 +55,13 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (*types.RegisterRes
 		logx.Errorf("checkVerificationCode error: %v", err)
 		return nil, err
 	}
+	// 加密手机号
 	mobile, err := encrypt.EncMobile(req.Mobile)
 	if err != nil {
 		logx.Errorf("EncMobile mobile: %s error: %v", req.Mobile, err)
 		return nil, err
 	}
+	// 查询用户是否存在
 	u, err := l.svcCtx.UserRPC.FindByMobile(l.ctx, &user.FindByMobileRequest{
 		Mobile: mobile,
 	})
@@ -67,6 +69,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (*types.RegisterRes
 		logx.Errorf("FindByMobile error: %v", err)
 		return nil, err
 	}
+	// 如果用户存在，则返回错误
 	if u != nil && u.UserId > 0 {
 		return nil, code.MobileHasRegistered
 	}

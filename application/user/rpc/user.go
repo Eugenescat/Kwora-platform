@@ -8,7 +8,7 @@ import (
 	"beyond/application/user/rpc/internal/server"
 	"beyond/application/user/rpc/internal/svc"
 	"beyond/application/user/rpc/service"
-	"beyond/pkg/consul"
+	// "beyond/pkg/consul"
 	"beyond/pkg/interceptors"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -40,10 +40,10 @@ func main() {
 	defer s.Stop()
 
 	// 服务注册
-	err := consul.Register(c.Consul, fmt.Sprintf("%s:%d", c.ServiceConf.Prometheus.Host, c.ServiceConf.Prometheus.Port))
-	if err != nil {
-		fmt.Printf("register consul error: %v\n", err)
-	}
+	// err := consul.Register(c.Consul, fmt.Sprintf("%s:%d", c.ServiceConf.Prometheus.Host, c.ServiceConf.Prometheus.Port))
+	// if err != nil {
+	// 	fmt.Printf("register consul error: %v\n", err)
+	// }
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()

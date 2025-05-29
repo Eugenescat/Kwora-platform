@@ -1,7 +1,7 @@
 package config
 
 import (
-	"beyond/pkg/consul"
+	// "beyond/pkg/consul"
 	
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -13,5 +13,5 @@ type Config struct {
 	DataSource string
 	CacheRedis cache.CacheConf
 	BizRedis   redis.RedisConf
-	Consul     consul.Conf
+	// Consul     consul.Conf
 }

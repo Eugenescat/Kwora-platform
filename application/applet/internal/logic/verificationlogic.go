@@ -43,7 +43,7 @@ func (l *VerificationLogic) Verification(req *types.VerificationRequest) (resp *
 	if count > verificationLimitPerDay {
 		return nil, err
 	}
-	// 30分钟内验证码不再变化
+	// 先从redis中获取验证码，如果获取不到，则生成验证码
 	code, err := getActivationCache(req.Mobile, l.svcCtx.BizRedis)
 	if err != nil {
 		logx.Errorf("getActivationCache mobile: %s error: %v", req.Mobile, err)
@@ -51,6 +51,7 @@ func (l *VerificationLogic) Verification(req *types.VerificationRequest) (resp *
 	if len(code) == 0 {
 		code = util.RandomNumeric(6)
 	}
+	// 发送验证码
 	_, err = l.svcCtx.UserRPC.SendSms(l.ctx, &user.SendSmsRequest{
 		Mobile: req.Mobile,
 	})
@@ -58,6 +59,7 @@ func (l *VerificationLogic) Verification(req *types.VerificationRequest) (resp *
 		logx.Errorf("sendSms mobile: %s error: %v", req.Mobile, err)
 		return nil, err
 	}
+	// 发送验证码后，保存验证码到redis，这个方法内部会设置过期时间（30分钟内）
 	err = saveActivationCache(req.Mobile, code, l.svcCtx.BizRedis)
 	if err != nil {
 		logx.Errorf("saveActivationCache mobile: %s error: %v", req.Mobile, err)
@@ -101,6 +103,7 @@ func getActivationCache(mobile string, rds *redis.Redis) (string, error) {
 
 func saveActivationCache(mobile, code string, rds *redis.Redis) error {
 	key := fmt.Sprintf(prefixActivation, mobile)
+	// expireActivation定义了过期时间，30分钟
 	return rds.Setex(key, code, expireActivation)
 }
 
